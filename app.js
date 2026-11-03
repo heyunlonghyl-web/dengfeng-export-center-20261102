@@ -119,9 +119,8 @@ document.addEventListener('click',e=>{
 document.querySelectorAll('.topbar nav a:not([data-route])').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();toast('当前未接入该业务模块');}));
 $('filters').addEventListener('submit',e=>{e.preventDefault();const values=Object.fromEntries(new FormData(e.target));if(values.start&&values.end&&values.start>values.end)return toast('开始日期不能晚于结束日期',true);applied=values;applied.keyword=values.keyword.trim();currentPage=1;render();});
 $('reset').onclick=resetFilters;$('emptyReset').onclick=resetFilters;
- $('refresh').onclick=()=>{render();if($('detailDialog').open)renderDetail();toast('列表已刷新');};
 $('pageSize').onchange=()=>{currentPage=1;render();};$('prevPage').onclick=()=>{currentPage=Math.max(1,currentPage-1);render();};$('nextPage').onclick=()=>{currentPage++;render();};$('pageJump').onchange=()=>{const max=Number($('pageJump').max),value=Number($('pageJump').value);if(!Number.isInteger(value)||value<1||value>max){$('pageJump').value=currentPage;return toast('请输入有效页码',true);}currentPage=value;render();};
-$('goOrders').onclick=()=>route('orders');$('backTasks').onclick=()=>route('tasks');$('exportOrders').onclick=()=>{if(!shownOrders().length)return toast('当前筛选结果为空，请调整条件',true);prepareCreate();};
+$('backTasks').onclick=()=>route('tasks');$('exportOrders').onclick=()=>{if(!shownOrders().length)return toast('当前筛选结果为空，请调整条件',true);prepareCreate();};
 $('orderRows').onchange=e=>{if(e.target.dataset.order){if(e.target.checked)orderSelection.add(e.target.dataset.order);else orderSelection.delete(e.target.dataset.order);renderOrders();}};
 $('selectAll').onchange=e=>{shownOrders().forEach(o=>e.target.checked?orderSelection.add(o.id):orderSelection.delete(o.id));renderOrders();};
 $('orderFilters').onsubmit=e=>{e.preventDefault();const values=Object.fromEntries(new FormData(e.target));if(values.from>values.to)return toast('开始日期不能晚于结束日期',true);orderQuery=values;orderSelection.clear();renderOrders();};
